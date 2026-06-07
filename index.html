@@ -41,11 +41,16 @@
   .hero-tag::before{content:'';display:block;width:32px;height:1px;background:var(--accent);}
   .hero h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5.5rem);font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin-bottom:0.5rem;color:var(--text);}
   .hero h1 em{font-style:italic;color:var(--accent);font-weight:300;}
-  .hero-sub{font-size:1.1rem;color:var(--muted);max-width:560px;margin:1.5rem 0 2.5rem;font-weight:300;line-height:1.8;}
+
+  /* CHANGE 1 – hero-sub is now a block of paragraphs, needs more room */
+  .hero-sub{font-size:1rem;color:var(--muted);max-width:620px;margin:1.5rem 0 2.5rem;font-weight:300;line-height:1.85;}
+  .hero-sub p{margin-bottom:1rem;}
+  .hero-sub p:last-child{margin-bottom:0;}
+
+  /* CHANGE 2 – all badges same muted style, no hover color change */
   .hero-badges{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:3rem;}
-  .badge{font-family:var(--mono);font-size:0.74rem;padding:0.35rem 0.85rem;border-radius:40px;border:1px solid var(--border2);color:var(--muted);letter-spacing:0.04em;transition:all 0.2s;}
-  .badge:hover{border-color:var(--accent);color:var(--accent);cursor:default;}
-  .badge.active{background:rgba(0,217,255,0.08);border-color:rgba(0,217,255,0.4);color:var(--accent);}
+  .badge{font-family:var(--mono);font-size:0.74rem;padding:0.35rem 0.85rem;border-radius:40px;border:1px solid var(--border2);color:var(--muted);letter-spacing:0.04em;cursor:default;}
+
   .cta-row{display:flex;gap:1rem;flex-wrap:wrap;}
   .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.75rem;border-radius:8px;font-size:0.9rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:none;}
   .btn-primary{background:var(--accent);color:#0a0c10;}
@@ -78,10 +83,9 @@
   .tag{font-family:var(--mono);font-size:0.69rem;padding:0.2rem 0.6rem;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--muted);}
   .timeline-text{font-size:0.9rem;color:var(--muted);line-height:1.7;}
 
-  /* ── Skills ── */
+  /* CHANGE 3 – skill cards: remove hover background change */
   .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:3rem;}
-  .skill-card{background:var(--surface);padding:1.75rem;transition:background 0.2s;}
-  .skill-card:hover{background:var(--surface2);}
+  .skill-card{background:var(--surface);padding:1.75rem;}
   .skill-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.1rem;}
   .skill-icon.blue{background:rgba(0,217,255,0.1);color:var(--accent);}
   .skill-icon.purple{background:rgba(124,111,255,0.1);color:var(--accent2);}
@@ -93,37 +97,40 @@
   .skill-items li:last-child{border-bottom:none;}
   .skill-items li::before{content:'›';color:var(--accent);}
 
-  /* ── File Cards ── */
+  /* CHANGE 4 – file cards are now clickable links to the repo */
   .file-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
-  .file-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:all 0.2s;position:relative;overflow:hidden;}
+  .file-card{display:block;text-decoration:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden;cursor:pointer;}
   .file-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 70%,rgba(0,217,255,0.03));pointer-events:none;}
-  .file-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+  .file-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .file-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+  .file-link-hint{font-family:var(--mono);font-size:0.68rem;color:var(--accent);opacity:0;transition:opacity 0.2s;letter-spacing:0.04em;}
+  .file-card:hover .file-link-hint{opacity:1;}
   .file-type{font-family:var(--mono);font-size:0.69rem;padding:0.3rem 0.7rem;border-radius:4px;font-weight:500;}
   .file-type.json{background:rgba(245,166,35,0.12);color:var(--amber);}
   .file-type.py{background:rgba(78,203,141,0.12);color:var(--green);}
   .file-type.js{background:rgba(0,217,255,0.12);color:var(--accent);}
   .file-type.md{background:rgba(124,111,255,0.12);color:var(--accent2);}
-  .file-card h3{font-family:var(--mono);font-size:0.88rem;font-weight:500;margin:0.75rem 0 0.5rem;color:var(--text);}
+  .file-type.sql{background:rgba(255,107,107,0.12);color:var(--accent3);}
+  .file-card h3{font-family:var(--mono);font-size:0.88rem;font-weight:500;margin-bottom:0.5rem;color:var(--text);}
   .file-card p{font-size:0.83rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;}
   .tc-list{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
   .tc-list li{font-family:var(--mono);font-size:0.71rem;color:var(--muted);display:flex;align-items:center;gap:0.5rem;}
   .tc-list li .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
 
-  /* ── Certs ── */
+  /* CHANGE 5 – cert cards: remove hover effect */
   .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;}
-  .cert-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;transition:all 0.2s;}
-  .cert-card:hover{border-color:rgba(0,217,255,0.3);background:var(--surface2);}
+  .cert-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;}
   .cert-badge{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
   .cert-card h4{font-size:0.84rem;font-weight:600;color:var(--text);margin-bottom:0.15rem;}
   .cert-card span{font-size:0.73rem;color:var(--muted);font-family:var(--mono);}
 
-  /* ── Contact ── */
+  /* CHANGE 6 – contact: fix email overflow on small screens, update subtitle */
   .contact-row{display:flex;flex-wrap:wrap;gap:1rem;}
   .contact-card{flex:1;min-width:190px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:1rem;transition:all 0.2s;}
   .contact-card:hover{border-color:rgba(0,217,255,0.4);color:var(--accent);transform:translateY(-2px);}
   .contact-icon{width:38px;height:38px;border-radius:8px;background:rgba(0,217,255,0.08);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--accent);flex-shrink:0;}
   .contact-card h4{font-size:0.84rem;font-weight:600;}
-  .contact-card p{font-size:0.76rem;color:var(--muted);font-family:var(--mono);}
+  .contact-card p{font-size:0.76rem;color:var(--muted);font-family:var(--mono);word-break:break-all;overflow-wrap:anywhere;}
 
   footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:var(--mono);font-size:0.73rem;color:var(--muted);letter-spacing:0.04em;}
 
@@ -154,21 +161,27 @@
 
 <!-- HERO -->
 <div class="hero" id="about">
-  <p class="hero-tag" data-en="QA Analyst &amp; Automation Engineer" data-es="Analista QA e Ingeniero de Automatización">QA Analyst &amp; Automation Engineer</p>
+  <p class="hero-tag" data-en="QA Analyst &amp; Automation Trainee" data-es="Analista QA y Trainee en Automatización">QA Analyst &amp; Automation Trainee</p>
   <h1>Esteban<br /><em>Gabriel</em> Craia</h1>
-  <p class="hero-sub" data-en="5+ years designing and executing test strategies in Banking, Insurtech, and Healthtech. Expert in API Testing, UI Automation, and leading QA teams through complex migrations." data-es="Más de 5 años diseñando y ejecutando estrategias de testing en Banca, Insurtech y Healthtech. Experto en API Testing, Automatización UI y liderazgo de equipos QA en migraciones complejas.">
-    5+ years designing and executing test strategies in Banking, Insurtech, and Healthtech. Expert in API Testing, UI Automation, and leading QA teams through complex migrations.
-  </p>
+
+  <!-- CHANGE 1 – updated bio text, bilingual, two paragraphs -->
+  <div class="hero-sub">
+    <p data-en="As a QA Analyst at Intermex Wire Transfer, LLC since January 2024, I bring over 6 years of experience in QA across the Fintech, Insurtech, and Healthtech industries. My focus is on API validation using tools like Postman and SoapUI, and database querying with SQL to ensure data integrity throughout the software lifecycle." data-es="Como QA en Intermex Wire Transfer, LLC desde enero de 2024, contribuyo con más de 6 años de experiencia en QA en las industrias Fintech, Insurtech y Healthtech. Mi enfoque se centra en la validación de APIs utilizando herramientas como Postman y SoapUI, así como en el manejo de bases de datos mediante SQL para garantizar la integridad de la información.">As a QA Analyst at Intermex Wire Transfer, LLC since January 2024, I bring over 6 years of experience in QA across the Fintech, Insurtech, and Healthtech industries. My focus is on API validation using tools like Postman and SoapUI, and database querying with SQL to ensure data integrity throughout the software lifecycle.</p>
+    <p data-en="I am currently building skills in Test Automation through my studies in the Programming Technician degree at Universidad Tecnológica Nacional, with emphasis on Python and Object-Oriented Programming. I am looking to apply my experience and growing technical knowledge in challenging projects that help me continue developing as an automation professional." data-es="Estoy desarrollando habilidades en Automatización de Pruebas a través de mi formación en la Tecnicatura en Programación en la Universidad Tecnológica Nacional, con un énfasis en el uso de Python y Programación Orientada a Objetos (POO). Busco aportar mi experiencia y conocimientos técnicos en proyectos desafiantes de automatización para optimizar procesos y mejorar la calidad del software.">I am currently building skills in Test Automation through my studies in the Programming Technician degree at Universidad Tecnológica Nacional, with emphasis on Python and Object-Oriented Programming. I am looking to apply my experience and growing technical knowledge in challenging projects that help me continue developing as an automation professional.</p>
+  </div>
+
+  <!-- CHANGE 2 – all badges same muted style, no active class -->
   <div class="hero-badges">
-    <span class="badge active">Postman / SoapUI</span>
-    <span class="badge active">Selenium · Python</span>
-    <span class="badge active">Playwright</span>
+    <span class="badge">Postman / SoapUI</span>
+    <span class="badge">Selenium · Python</span>
+    <span class="badge">Playwright</span>
     <span class="badge">Azure DevOps</span>
     <span class="badge">Jira · Octane</span>
     <span class="badge">SQL</span>
     <span class="badge">Scrum / Kanban</span>
     <span class="badge" data-en="English C1" data-es="Inglés C1">English C1</span>
   </div>
+
   <div class="cta-row">
     <a href="https://www.linkedin.com/in/esteban-craia-446a47b5/" target="_blank" class="btn btn-primary" data-en="LinkedIn Profile" data-es="Perfil de LinkedIn">LinkedIn Profile</a>
     <a href="mailto:esteban.craia@gmail.com" class="btn btn-outline" data-en="Get in Touch" data-es="Contactarme">Get in Touch</a>
@@ -178,8 +191,8 @@
 <!-- STATS -->
 <section>
   <div class="stats-bar fade-in">
-    <div class="stat"><span class="stat-number">5+</span><span class="stat-label" data-en="Years in QA" data-es="Años en QA">Years in QA</span></div>
-    <div class="stat"><span class="stat-number">4</span><span class="stat-label" data-en="Industries" data-es="Industrias">Industries</span></div>
+    <div class="stat"><span class="stat-number">6+</span><span class="stat-label" data-en="Years in QA" data-es="Años en QA">Years in QA</span></div>
+    <div class="stat"><span class="stat-number">3</span><span class="stat-label" data-en="Industries" data-es="Industrias">Industries</span></div>
     <div class="stat"><span class="stat-number">3</span><span class="stat-label" data-en="Automation Frameworks" data-es="Frameworks de Automatización">Automation Frameworks</span></div>
     <div class="stat"><span class="stat-number">25+</span><span class="stat-label" data-en="Test Cases (This Repo)" data-es="Casos de Prueba (Este Repo)">Test Cases (This Repo)</span></div>
     <div class="stat"><span class="stat-number">C1</span><span class="stat-label" data-en="English Level" data-es="Nivel de Inglés">English Level</span></div>
@@ -196,13 +209,12 @@
     <div class="timeline-item fade-in">
       <p class="timeline-date">Jan 2024 — Present</p>
       <p class="timeline-role" data-en="QA Analyst &amp; Team Co-Lead" data-es="Analista QA y Co-Líder de Equipo">QA Analyst &amp; Team Co-Lead</p>
-      <p class="timeline-company">Signaris Inc.</p>
+      <p class="timeline-company">Signaris Inc. — Intermex Wire Transfer, LLC</p>
       <div class="timeline-tags">
-        <span class="tag" data-en="Banking" data-es="Banca">Banking</span>
+        <span class="tag" data-en="Fintech" data-es="Fintech">Fintech</span>
         <span class="tag">Wire Transfers</span>
         <span class="tag">Azure DevOps</span>
         <span class="tag">Agile</span>
-        <span class="tag">Intermex Direct</span>
       </div>
       <p class="timeline-text" data-en="Acting primary point of contact and team coordinator in absence of QA Lead. QA Lead for bank wire transfer application workflows. End-to-end bug lifecycle management and test case design in Azure DevOps. Supervised regression testing and validation of critical financial transaction flows." data-es="Punto de contacto principal y coordinador del equipo en ausencia del QA Lead. Responsable QA de flujos de transferencias bancarias. Gestión completa del ciclo de vida de defectos y diseño de casos de prueba en Azure DevOps. Supervisión de testing de regresión y validación de flujos financieros críticos.">
         Acting primary point of contact and team coordinator in absence of QA Lead. QA Lead for bank wire transfer application workflows. End-to-end bug lifecycle management and test case design in Azure DevOps. Supervised regression testing and validation of critical financial transaction flows.
@@ -261,8 +273,9 @@
 <section id="skills">
   <p class="section-label" data-en="Toolkit" data-es="Herramientas">Toolkit</p>
   <h2 data-en="Technical Skills" data-es="Habilidades Técnicas">Technical Skills</h2>
-  <p class="section-intro" data-en="Tools and methodologies applied across 4 industries and 5 years of real projects." data-es="Herramientas y metodologías aplicadas en 4 industrias y 5 años de proyectos reales.">Tools and methodologies applied across 4 industries and 5 years of real projects.</p>
+  <p class="section-intro" data-en="Tools and methodologies applied across 3 industries and 6+ years of real projects." data-es="Herramientas y metodologías aplicadas en 3 industrias y más de 6 años de proyectos reales.">Tools and methodologies applied across 3 industries and 6+ years of real projects.</p>
 
+  <!-- CHANGE 3 – no hover effect on skill cards -->
   <div class="skills-grid fade-in">
     <div class="skill-card">
       <div class="skill-icon blue">⚡</div>
@@ -277,24 +290,13 @@
     </div>
     <div class="skill-card">
       <div class="skill-icon green">🐍</div>
-      <h3 data-en="AUTOMATION · PYTHON" data-es="AUTOMATIZACIÓN · PYTHON">AUTOMATION · PYTHON</h3>
+      <h3 data-en="AUTOMATION · IN PROGRESS" data-es="AUTOMATIZACIÓN · EN CURSO">AUTOMATION · IN PROGRESS</h3>
       <ul class="skill-items">
         <li>Selenium WebDriver</li>
         <li data-en="pytest + fixtures" data-es="pytest + fixtures">pytest + fixtures</li>
         <li data-en="Page Object Model" data-es="Page Object Model">Page Object Model</li>
-        <li>webdriver-manager</li>
-        <li data-en="ActionChains / Wait API" data-es="ActionChains / Wait API">ActionChains / Wait API</li>
-      </ul>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon blue">🎭</div>
-      <h3 data-en="PLAYWRIGHT · JS" data-es="PLAYWRIGHT · JS">PLAYWRIGHT · JS</h3>
-      <ul class="skill-items">
-        <li data-en="E2E Browser Testing" data-es="Testing E2E en Navegador">E2E Browser Testing</li>
-        <li data-en="API Integration Tests" data-es="Tests de Integración API">API Integration Tests</li>
-        <li data-en="Multi-browser support" data-es="Soporte multi-navegador">Multi-browser support</li>
-        <li data-en="HTML Reports" data-es="Reportes HTML">HTML Reports</li>
-        <li data-en="CI/CD compatible" data-es="Compatible con CI/CD">CI/CD compatible</li>
+        <li>Playwright (JS)</li>
+        <li data-en="Python / OOP (UTN)" data-es="Python / POO (UTN)">Python / OOP (UTN)</li>
       </ul>
     </div>
     <div class="skill-card">
@@ -314,9 +316,9 @@
       <ul class="skill-items">
         <li data-en="SQL (complex queries)" data-es="SQL (consultas complejas)">SQL (complex queries)</li>
         <li data-en="Data validation" data-es="Validación de datos">Data validation</li>
+        <li data-en="Integrity checks" data-es="Verificación de integridad">Integrity checks</li>
         <li>Scrum / Kanban</li>
-        <li data-en="Python (UTN — ongoing)" data-es="Python (UTN — en curso)">Python (UTN — ongoing)</li>
-        <li data-en="JavaScript / TypeScript" data-es="JavaScript / TypeScript">JavaScript / TypeScript</li>
+        <li data-en="English C1 Advanced" data-es="Inglés C1 Avanzado">English C1 Advanced</li>
       </ul>
     </div>
   </div>
@@ -326,24 +328,31 @@
 <section id="files">
   <p class="section-label" data-en="Repository" data-es="Repositorio">Repository</p>
   <h2 data-en="Portfolio Files" data-es="Archivos del Portfolio">Portfolio Files</h2>
-  <p class="section-intro" data-en="Four production-quality files covering the full QA automation spectrum." data-es="Cuatro archivos de calidad productiva que cubren todo el espectro de automatización QA.">Four production-quality files covering the full QA automation spectrum.</p>
+  <p class="section-intro" data-en="Click any card to browse the full repository on GitHub." data-es="Hacé click en cualquier tarjeta para explorar el repositorio completo en GitHub.">Click any card to browse the full repository on GitHub.</p>
 
+  <!-- CHANGE 4 – each card is an <a> that opens the GitHub repo -->
   <div class="file-grid">
-    <div class="file-card fade-in">
-      <span class="file-type json">.json</span>
+    <a class="file-card fade-in" href="https://github.com/TankeCr9/Esteban-Craia-QA" target="_blank" rel="noopener">
+      <div class="file-card-top">
+        <span class="file-type json">.json</span>
+        <span class="file-link-hint" data-en="View on GitHub →" data-es="Ver en GitHub →">View on GitHub →</span>
+      </div>
       <h3>postman_collection.json</h3>
       <p data-en="Full CRUD REST API test suite against JSONPlaceholder. 11 test cases covering schema validation, error handling, and relational integrity." data-es="Suite completa de API REST (CRUD) contra JSONPlaceholder. 11 casos de prueba cubriendo validación de schema, manejo de errores e integridad relacional.">Full CRUD REST API test suite against JSONPlaceholder. 11 test cases covering schema validation, error handling, and relational integrity.</p>
       <ul class="tc-list">
         <li><span class="dot"></span><span data-en="GET · POST · PUT · PATCH · DELETE" data-es="GET · POST · PUT · PATCH · DELETE">GET · POST · PUT · PATCH · DELETE</span></li>
         <li><span class="dot"></span><span data-en="Negative tests (404 handling)" data-es="Tests negativos (manejo de 404)">Negative tests (404 handling)</span></li>
         <li><span class="dot"></span><span data-en="Email regex · array length · type checks" data-es="Regex de email · longitud de array · tipos">Email regex · array length · type checks</span></li>
-        <li><span class="dot"></span><span data-en="Collection variables & response time" data-es="Variables de colección y tiempo de respuesta">Collection variables &amp; response time</span></li>
+        <li><span class="dot"></span><span data-en="Collection variables &amp; response time" data-es="Variables de colección y tiempo de respuesta">Collection variables &amp; response time</span></li>
         <li><span class="dot"></span><span data-en="Newman CLI ready with HTML export" data-es="Listo para Newman CLI con export HTML">Newman CLI ready with HTML export</span></li>
       </ul>
-    </div>
+    </a>
 
-    <div class="file-card fade-in">
-      <span class="file-type py">.py</span>
+    <a class="file-card fade-in" href="https://github.com/TankeCr9/Esteban-Craia-QA" target="_blank" rel="noopener">
+      <div class="file-card-top">
+        <span class="file-type py">.py</span>
+        <span class="file-link-hint" data-en="View on GitHub →" data-es="Ver en GitHub →">View on GitHub →</span>
+      </div>
       <h3>selenium_tests.py</h3>
       <p data-en="10 Selenium test cases using pytest and webdriver-manager. Targets The Internet (Selenium sandbox). Headless Chrome, CI/CD compatible." data-es="10 casos de prueba con Selenium usando pytest y webdriver-manager. Target: The Internet (sandbox de Selenium). Chrome headless, compatible con CI/CD.">10 Selenium test cases using pytest and webdriver-manager. Targets The Internet (Selenium sandbox). Headless Chrome, CI/CD compatible.</p>
       <ul class="tc-list">
@@ -353,23 +362,45 @@
         <li><span class="dot"></span><span data-en="ActionChains hover · File upload" data-es="Hover con ActionChains · Carga de archivos">ActionChains hover · File upload</span></li>
         <li><span class="dot"></span><span data-en="Alert handling · Multi-window switching" data-es="Manejo de alertas · Multi-ventana">Alert handling · Multi-window switching</span></li>
       </ul>
-    </div>
+    </a>
 
-    <div class="file-card fade-in">
-      <span class="file-type js">.spec.js</span>
+    <a class="file-card fade-in" href="https://github.com/TankeCr9/Esteban-Craia-QA" target="_blank" rel="noopener">
+      <div class="file-card-top">
+        <span class="file-type js">.spec.js</span>
+        <span class="file-link-hint" data-en="View on GitHub →" data-es="Ver en GitHub →">View on GitHub →</span>
+      </div>
       <h3>playwright_tests.spec.js</h3>
       <p data-en="15 Playwright tests split between E2E (browser) and Integration (API) layers. Dual-target: UI sandbox + REST API." data-es="15 tests de Playwright divididos entre capas E2E (navegador) e Integración (API). Doble objetivo: sandbox UI + REST API.">15 Playwright tests split between E2E (browser) and Integration (API) layers. Dual-target: UI sandbox + REST API.</p>
       <ul class="tc-list">
         <li><span class="dot"></span><span data-en="Auth flow · Logout · Session" data-es="Flujo de auth · Logout · Sesión">Auth flow · Logout · Session</span></li>
-        <li><span class="dot"></span><span data-en="Drag & Drop · Key press · Table structure" data-es="Drag & Drop · Teclas · Estructura de tabla">Drag &amp; Drop · Key press · Table structure</span></li>
+        <li><span class="dot"></span><span data-en="Drag &amp; Drop · Key press · Table structure" data-es="Drag &amp; Drop · Teclas · Estructura de tabla">Drag &amp; Drop · Key press · Table structure</span></li>
         <li><span class="dot"></span><span data-en="API: schema · create · update · delete" data-es="API: schema · crear · actualizar · eliminar">API: schema · create · update · delete</span></li>
         <li><span class="dot"></span><span data-en="Relational integrity across endpoints" data-es="Integridad relacional entre endpoints">Relational integrity across endpoints</span></li>
         <li><span class="dot"></span><span data-en="HTML report + headed/headless modes" data-es="Reporte HTML + modos headed/headless">HTML report + headed/headless modes</span></li>
       </ul>
-    </div>
+    </a>
 
-    <div class="file-card fade-in">
-      <span class="file-type md">.md</span>
+    <a class="file-card fade-in" href="https://github.com/TankeCr9/Esteban-Craia-QA" target="_blank" rel="noopener">
+      <div class="file-card-top">
+        <span class="file-type sql">.sql</span>
+        <span class="file-link-hint" data-en="View on GitHub →" data-es="Ver en GitHub →">View on GitHub →</span>
+      </div>
+      <h3>sql_validation_queries.sql</h3>
+      <p data-en="18 SQL queries for data integrity checks, business logic validation, regression verification, test data management, and QA reporting metrics." data-es="18 consultas SQL para verificación de integridad, validación de lógica de negocio, regresión, gestión de datos de prueba y métricas de reporte QA.">18 SQL queries for data integrity checks, business logic validation, regression verification, test data management, and QA reporting metrics.</p>
+      <ul class="tc-list">
+        <li><span class="dot"></span><span data-en="NULL checks · duplicate detection · FK integrity" data-es="Verificación de NULLs · duplicados · integridad FK">NULL checks · duplicate detection · FK integrity</span></li>
+        <li><span class="dot"></span><span data-en="Amount reconciliation · state machine validation" data-es="Reconciliación de montos · validación de estados">Amount reconciliation · state machine validation</span></li>
+        <li><span class="dot"></span><span data-en="Regression queries tied to real bug IDs" data-es="Queries de regresión vinculadas a bugs reales">Regression queries tied to real bug IDs</span></li>
+        <li><span class="dot"></span><span data-en="Test data seed &amp; teardown scripts" data-es="Scripts de seed y limpieza de datos de prueba">Test data seed &amp; teardown scripts</span></li>
+        <li><span class="dot"></span><span data-en="Pass rate &amp; SLA tracking queries" data-es="Queries de tasa de pass y seguimiento de SLA">Pass rate &amp; SLA tracking queries</span></li>
+      </ul>
+    </a>
+
+    <a class="file-card fade-in" href="https://github.com/TankeCr9/Esteban-Craia-QA" target="_blank" rel="noopener">
+      <div class="file-card-top">
+        <span class="file-type md">.md</span>
+        <span class="file-link-hint" data-en="View on GitHub →" data-es="Ver en GitHub →">View on GitHub →</span>
+      </div>
       <h3>README.md</h3>
       <p data-en="Complete setup guide, test case index tables, and step-by-step instructions for running all suites locally and on GitHub." data-es="Guía de configuración completa, tablas de casos de prueba e instrucciones paso a paso para ejecutar todas las suites localmente y en GitHub.">Complete setup guide, test case index tables, and step-by-step instructions for running all suites locally and on GitHub.</p>
       <ul class="tc-list">
@@ -379,7 +410,7 @@
         <li><span class="dot"></span><span data-en="Newman CLI with HTML report" data-es="Newman CLI con reporte HTML">Newman CLI with HTML report</span></li>
         <li><span class="dot"></span><span data-en="GitHub Pages + Git push walkthrough" data-es="GitHub Pages + guía de Git push">GitHub Pages + Git push walkthrough</span></li>
       </ul>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -388,6 +419,7 @@
   <p class="section-label" data-en="Education" data-es="Educación">Education</p>
   <h2 data-en="Certifications &amp; Education" data-es="Certificaciones y Educación">Certifications &amp; Education</h2>
 
+  <!-- CHANGE 5 – no hover effect -->
   <div class="cert-grid fade-in">
     <div class="cert-card">
       <div class="cert-badge" style="background:rgba(78,203,141,0.1);">🐍</div>
@@ -407,7 +439,7 @@
     </div>
     <div class="cert-card">
       <div class="cert-badge" style="background:rgba(255,107,107,0.1);">🎓</div>
-      <div><h4 data-en="A.S. in Programming" data-es="Tecnicatura en Programación">A.S. in Programming</h4><span data-en="UTN — In Progress" data-es="UTN — En Curso">UTN — In Progress</span></div>
+      <div><h4 data-en="Programming Technician" data-es="Tecnicatura en Programación">Programming Technician</h4><span data-en="UTN — In Progress" data-es="UTN — En Curso">UTN — In Progress</span></div>
     </div>
   </div>
 </section>
@@ -416,11 +448,13 @@
 <section id="contact">
   <p class="section-label" data-en="Contact" data-es="Contacto">Contact</p>
   <h2 data-en="Let's Work Together" data-es="Trabajemos Juntos">Let's Work Together</h2>
-  <p class="section-intro" data-en="Open to QA Analyst, Test Lead, and Automation Engineer roles — remote or hybrid." data-es="Disponible para roles de Analista QA, Test Lead e Ingeniero de Automatización — remoto o híbrido.">Open to QA Analyst, Test Lead, and Automation Engineer roles — remote or hybrid.</p>
+  <!-- CHANGE 6 – updated subtitle, no remote/hybrid, no automation engineer -->
+  <p class="section-intro" data-en="QA Analyst with growing automation skills — open to new challenges." data-es="Analista QA con habilidades de automatización en crecimiento — abierto a nuevos desafíos.">QA Analyst with growing automation skills — open to new challenges.</p>
 
   <div class="contact-row fade-in">
     <a href="mailto:esteban.craia@gmail.com" class="contact-card">
       <div class="contact-icon">✉</div>
+      <!-- CHANGE 6 – word-break on email so it doesn't overflow on small screens -->
       <div><h4>Email</h4><p>esteban.craia@gmail.com</p></div>
     </a>
     <a href="https://www.linkedin.com/in/esteban-craia-446a47b5/" target="_blank" class="contact-card">
@@ -439,7 +473,7 @@
 </section>
 
 <footer>
-  <p>Esteban Gabriel Craia &nbsp;·&nbsp; QA Automation Portfolio &nbsp;·&nbsp; Rosario, Argentina &nbsp;·&nbsp; 2025</p>
+  <p>Esteban Gabriel Craia &nbsp;·&nbsp; QA Portfolio &nbsp;·&nbsp; Rosario, Argentina &nbsp;·&nbsp; 2025</p>
 </footer>
 
 <script>
@@ -452,25 +486,16 @@
   document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
   /* ── Language switch ── */
-  let currentLang = 'en';
-
   function setLang(lang) {
-    currentLang = lang;
     document.documentElement.lang = lang;
-
-    // Toggle button styles
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-
-    // Update all elements with data-en / data-es
     document.querySelectorAll('[data-en]').forEach(el => {
       const text = el.getAttribute('data-' + lang);
       if (text) el.innerHTML = text;
     });
-
-    // Update page title
     document.title = lang === 'es'
-      ? 'Esteban Craia — Portfolio QA Automatización'
+      ? 'Esteban Craia — Portfolio QA'
       : 'Esteban Craia — QA Automation Portfolio';
   }
 </script>
