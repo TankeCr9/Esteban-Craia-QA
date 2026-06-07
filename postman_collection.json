@@ -1,0 +1,385 @@
+{
+  "info": {
+    "name": "QA Portfolio – REST API Test Suite",
+    "description": "Comprehensive API test collection by Esteban Craia – QA Analyst.\nTargets JSONPlaceholder (https://jsonplaceholder.typicode.com) as a public test API.\nCovers CRUD operations, schema validation, error handling, and business logic assertions.\nDesigned to showcase real-world API testing practices for recruiters.",
+    "_postman_id": "esteban-craia-qa-portfolio-v2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://jsonplaceholder.typicode.com", "type": "string" },
+    { "key": "postId",  "value": "1",  "type": "string" },
+    { "key": "userId",  "value": "1",  "type": "string" },
+    { "key": "newPostId", "value": "", "type": "string" }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": ["console.log('📋 Suite: QA Portfolio – Esteban Craia');"]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "🔵 POSTS – Full CRUD",
+      "item": [
+        {
+          "name": "GET All Posts – Status & Schema",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => pm.response.to.be.json);",
+                  "pm.test('Returns array of 100 posts', () => {",
+                  "  const posts = pm.response.json();",
+                  "  pm.expect(posts).to.be.an('array').with.lengthOf(100);",
+                  "});",
+                  "pm.test('Each post has required fields', () => {",
+                  "  const posts = pm.response.json();",
+                  "  posts.forEach(p => {",
+                  "    pm.expect(p).to.have.all.keys('id','userId','title','body');",
+                  "    pm.expect(p.id).to.be.a('number');",
+                  "    pm.expect(p.userId).to.be.a('number');",
+                  "    pm.expect(p.title).to.be.a('string').and.not.empty;",
+                  "    pm.expect(p.body).to.be.a('string').and.not.empty;",
+                  "  });",
+                  "});",
+                  "pm.test('Response time < 2000ms', () => pm.expect(pm.response.responseTime).to.be.below(2000));",
+                  "pm.test('Content-Type header is application/json', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/posts",
+            "description": "Validates that the posts endpoint returns all 100 posts with correct schema."
+          }
+        },
+        {
+          "name": "GET Single Post – Valid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Post ID matches request param', () => {",
+                  "  const post = pm.response.json();",
+                  "  pm.expect(post.id).to.eql(parseInt(pm.variables.get('postId')));",
+                  "});",
+                  "pm.test('Post schema is valid', () => {",
+                  "  const post = pm.response.json();",
+                  "  pm.expect(post).to.have.all.keys('id','userId','title','body');",
+                  "  pm.expect(post.userId).to.be.a('number').and.above(0);",
+                  "  pm.expect(post.title).to.be.a('string').with.length.above(3);",
+                  "});",
+                  "pm.test('Response time < 1500ms', () => pm.expect(pm.response.responseTime).to.be.below(1500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/posts/{{postId}}",
+            "description": "Retrieves a single post and validates structure and ID match."
+          }
+        },
+        {
+          "name": "GET Single Post – Invalid ID (404 check)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404 Not Found for invalid ID', () => pm.response.to.have.status(404));",
+                  "pm.test('Response body is empty object', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.deep.equal({});",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/posts/99999",
+            "description": "Negative test: expects 404 for a non-existent resource."
+          }
+        },
+        {
+          "name": "POST Create New Post – Validate Response",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response contains created post data', () => {",
+                  "  const res = pm.response.json();",
+                  "  pm.expect(res.title).to.eql('QA Automation Best Practices');",
+                  "  pm.expect(res.userId).to.eql(1);",
+                  "  pm.expect(res.id).to.be.a('number');",
+                  "});",
+                  "pm.test('New post ID is saved to variable', () => {",
+                  "  const res = pm.response.json();",
+                  "  pm.collectionVariables.set('newPostId', res.id);",
+                  "  pm.expect(pm.collectionVariables.get('newPostId')).to.not.be.undefined;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/posts",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"QA Automation Best Practices\",\n  \"body\": \"A comprehensive guide on API testing strategies covering contract testing, schema validation, and performance benchmarks.\",\n  \"userId\": 1\n}"
+            },
+            "description": "Creates a new post and validates the 201 response with the created resource."
+          }
+        },
+        {
+          "name": "PUT Update Post – Full Replace",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Updated fields match request body', () => {",
+                  "  const res = pm.response.json();",
+                  "  pm.expect(res.title).to.eql('Updated: QA Strategy 2025');",
+                  "  pm.expect(res.userId).to.eql(1);",
+                  "  pm.expect(res.id).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/posts/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"title\": \"Updated: QA Strategy 2025\",\n  \"body\": \"Revised content with updated testing methodologies for 2025.\",\n  \"userId\": 1\n}"
+            },
+            "description": "Full update of a post – validates that all returned fields match the sent payload."
+          }
+        },
+        {
+          "name": "PATCH Partial Update Post",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Patched title is returned correctly', () => {",
+                  "  const res = pm.response.json();",
+                  "  pm.expect(res.title).to.eql('Patched Title – QA Regression Suite');",
+                  "});",
+                  "pm.test('Other fields remain present', () => {",
+                  "  const res = pm.response.json();",
+                  "  pm.expect(res).to.have.property('body');",
+                  "  pm.expect(res).to.have.property('userId');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/posts/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Patched Title – QA Regression Suite\"\n}"
+            },
+            "description": "Partial update – only title is modified, other fields should remain."
+          }
+        },
+        {
+          "name": "DELETE Post – Confirm Deletion",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK on delete', () => pm.response.to.have.status(200));",
+                  "pm.test('Response body is empty (resource deleted)', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body).to.deep.equal({});",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/posts/{{postId}}",
+            "description": "Deletes a post and verifies the 200 status and empty response body."
+          }
+        }
+      ]
+    },
+    {
+      "name": "🟢 USERS – Profile Validation",
+      "item": [
+        {
+          "name": "GET All Users – Schema Validation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns 10 users', () => {",
+                  "  pm.expect(pm.response.json()).to.be.an('array').with.lengthOf(10);",
+                  "});",
+                  "pm.test('User schema is valid', () => {",
+                  "  const users = pm.response.json();",
+                  "  users.forEach(u => {",
+                  "    pm.expect(u).to.have.all.keys('id','name','username','email','address','phone','website','company');",
+                  "    pm.expect(u.email).to.match(/^[^@]+@[^@]+\\.[^@]+$/);",
+                  "    pm.expect(u.id).to.be.a('number').and.above(0);",
+                  "  });",
+                  "});",
+                  "pm.test('All users have nested address with geo coords', () => {",
+                  "  pm.response.json().forEach(u => {",
+                  "    pm.expect(u.address).to.have.property('geo');",
+                  "    pm.expect(u.address.geo).to.have.all.keys('lat','lng');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users",
+            "description": "Validates user list schema including nested objects and email format."
+          }
+        },
+        {
+          "name": "GET User Posts – Relationship Check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('All posts belong to the queried user', () => {",
+                  "  const posts = pm.response.json();",
+                  "  const uid = parseInt(pm.variables.get('userId'));",
+                  "  pm.expect(posts).to.be.an('array').with.length.above(0);",
+                  "  posts.forEach(p => pm.expect(p.userId).to.eql(uid));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/posts?userId={{userId}}",
+            "description": "Filters posts by userId – validates relational integrity between resources."
+          }
+        }
+      ]
+    },
+    {
+      "name": "🟡 COMMENTS – Data Integrity",
+      "item": [
+        {
+          "name": "GET Comments for Post – Email Format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Comments belong to correct postId', () => {",
+                  "  const comments = pm.response.json();",
+                  "  const pid = parseInt(pm.variables.get('postId'));",
+                  "  pm.expect(comments).to.be.an('array').with.length.above(0);",
+                  "  comments.forEach(c => pm.expect(c.postId).to.eql(pid));",
+                  "});",
+                  "pm.test('All comment emails are valid format', () => {",
+                  "  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;",
+                  "  pm.response.json().forEach(c => {",
+                  "    pm.expect(c.email).to.match(emailRegex);",
+                  "  });",
+                  "});",
+                  "pm.test('No comment has empty body', () => {",
+                  "  pm.response.json().forEach(c => {",
+                  "    pm.expect(c.body).to.be.a('string').and.not.empty;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/comments?postId={{postId}}",
+            "description": "Retrieves comments for a post. Validates email format, postId integrity, and non-empty bodies."
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔴 TODOS – Status & Ownership",
+      "item": [
+        {
+          "name": "GET Todos – Completed vs Pending Count",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns 200 todos', () => pm.expect(pm.response.json()).to.have.lengthOf(200));",
+                  "pm.test('Todos have boolean completed field', () => {",
+                  "  pm.response.json().forEach(t => pm.expect(t.completed).to.be.a('boolean'));",
+                  "});",
+                  "pm.test('Both completed and pending todos exist', () => {",
+                  "  const todos = pm.response.json();",
+                  "  const done = todos.filter(t => t.completed).length;",
+                  "  const pending = todos.filter(t => !t.completed).length;",
+                  "  pm.expect(done).to.be.above(0);",
+                  "  pm.expect(pending).to.be.above(0);",
+                  "  console.log(`✅ Completed: ${done} | ⏳ Pending: ${pending}`);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/todos",
+            "description": "Validates todos list. Logs completed vs pending counts. Verifies boolean type on 'completed'."
+          }
+        }
+      ]
+    }
+  ]
+}
